@@ -6,21 +6,23 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 16:40:13 by sdelhomm          #+#    #+#             */
-/*   Updated: 2018/01/09 11:04:12 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/15 14:19:42 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		events_mouse(int bc, int x, int y, t_param *p)
+static void	mouse2(int bc, int x, int y, t_param *p)
 {
 	double ScaleX;
 	double ScaleY;
 
-	ScaleY = (double)y / p->h;
-	ScaleX = (double)x / p->l;
-	p->factin = p->l * 0.0905;
-	p->factout = p->l * 0.1;
+	if (x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15 || y < p->l * 0.15)
+		return ;
+	ScaleY = (double)y / (p->h * 0.85);
+	ScaleX = (double)x / (p->l * 0.85);
+	p->factin = p->l * (0.0909 * 0.85);
+	p->factout = p->l * (0.1 * 0.85);
 	if (bc == 1 || bc == 4)
 	{
 		p->y1 = p->y1 + ((1 / (p->zoom / p->factin)) * ScaleY);
@@ -35,8 +37,30 @@ int		events_mouse(int bc, int x, int y, t_param *p)
 		p->zoom = p->zoom / 1.1;
 		p->iter -= 0.25;
 	}
+}
+
+int		events_mouse(int bc, int x, int y, t_param *p)
+{
+	if (x > p->l * 0.05 && x < p->l * 0.25 && y > p->h * 0.025 && y < p->h * 0.125 && bc == 1)
+	{
+		p->arg = 1;
+		reset_fract(p);
+	}
+	else if (x > p->l * 0.4 && x < p->l * 0.6 && y > p->h * 0.025 && y < p->h * 0.125 && bc == 1)
+	{
+		p->arg = 2;
+		reset_fract(p);
+	}
+	else if (x > p->l * 0.75 && x < p->l * 0.95 && y > p->h * 0.025 && y < p->h * 0.125 && bc == 1)
+	{
+		p->arg = 3;
+		reset_fract(p);
+	}
+	else
+		mouse2(bc, x, y, p);
 	generate(p);
 	mlx_put_image_to_window(p->mlx, p->win, p->ptr_img, 0, 0);
+	show_text(p);
 	return (0);
 }
 
@@ -45,7 +69,7 @@ int 	events_move(int x, int y, t_param *p)
 	double ScaleX;
 	double ScaleY;
 
-	if (x < 0 || y < 0 || x > p->l || y > p->h || p->stop == 1)
+	if (x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15 || y < p->l * 0.15 || p->stop == 1)
 		return (0);
 	ScaleY = (double)y / p->h;
 	ScaleX = (double)x / p->l;
@@ -55,29 +79,7 @@ int 	events_move(int x, int y, t_param *p)
 	p->c_i = ScaleY / 1 - 1;
 	generate(p);
 	mlx_put_image_to_window(p->mlx, p->win, p->ptr_img, 0, 0);
-	return (0);
-}
-
-int		reset_fract(t_param *p)
-{
-	if (p->arg == 1)
-	{
-		p->x1 = -2.1;
-		p->x2 = 0.6;
-		p->y1 = -1.2;
-		p->y2 = 1.2;
-		p->zoom = 400;
-		p->iter = 50;
-	}
-	if (p->arg == 2)
-	{
-		p->zoom = 300;
-		p->x1 = -1.8;
-		p->y1 = -1.6;
-		p->iter = 100;
-		p->c_r = 0.285;
-		p->c_i = 0.01;
-	}
+	show_text(p);
 	return (0);
 }
 
@@ -105,5 +107,6 @@ int		events_key(int kc, t_param *p)
 		reset_fract(p);
 	generate(p);
 	mlx_put_image_to_window(p->mlx, p->win, p->ptr_img, 0, 0);
+	show_text(p);
 	return (0);
 }

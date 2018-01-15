@@ -6,7 +6,7 @@
 #    By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/20 16:13:44 by sdelhomm          #+#    #+#              #
-#    Updated: 2018/01/09 11:39:06 by sdelhomm         ###   ########.fr        #
+#    Updated: 2018/01/15 14:19:00 by sdelhomm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,18 @@ FLAGS = -Wall -Wextra -Werror -O3
 SRC =	main.c \
 		generate.c \
 		fractale.c \
-		events.c
+		events.c \
+		hud.c \
+		info.c \
+		reset_fract.c
 
 OBJ =	main.o \
 		generate.o \
 		fractale.o \
-		events.o
+		events.o \
+		hud.o \
+		info.o \
+		reset_fract.o
 
 all: $(NAME)
 
