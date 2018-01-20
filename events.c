@@ -6,7 +6,7 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 16:40:13 by sdelhomm          #+#    #+#             */
-/*   Updated: 2018/01/15 14:19:42 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/20 11:23:43 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,49 @@
 
 static void	mouse2(int bc, int x, int y, t_param *p)
 {
-	double ScaleX;
-	double ScaleY;
+	double scale_x;
+	double scale_y;
 
-	if (x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15 || y < p->l * 0.15)
-		return ;
-	ScaleY = (double)y / (p->h * 0.85);
-	ScaleX = (double)x / (p->l * 0.85);
-	p->factin = p->l * (0.0909 * 0.85);
-	p->factout = p->l * (0.1 * 0.85);
+	scale_y = (double)y / (p->h * 0.85);
+	scale_x = (double)x / (p->l * 0.85);
+	p->fact_in = p->l * (0.0909 * 0.85);
+	p->fact_out = p->l * (0.1 * 0.85);
 	if (bc == 1 || bc == 4)
 	{
-		p->y1 = p->y1 + ((1 / (p->zoom / p->factin)) * ScaleY);
-		p->x1 = p->x1 + ((1 / (p->zoom / p->factin)) * ScaleX);
+		p->y1 = p->y1 + ((1 / (p->zoom / p->fact_in)) * scale_y);
+		p->x1 = p->x1 + ((1 / (p->zoom / p->fact_in)) * scale_x);
 		p->zoom = p->zoom * 1.1;
-		p->iter += 0.25;
+		p->iter += 0.175;
 	}
 	if (bc == 2 || bc == 5)
 	{
-		p->y1 = p->y1 - ((1 / (p->zoom / p->factout)) * ScaleY);
-		p->x1 = p->x1 - ((1 / (p->zoom / p->factout)) * ScaleX);
+		p->y1 = p->y1 - ((1 / (p->zoom / p->fact_out)) * scale_y);
+		p->x1 = p->x1 - ((1 / (p->zoom / p->fact_out)) * scale_x);
 		p->zoom = p->zoom / 1.1;
-		p->iter -= 0.25;
+		p->iter -= 0.175;
 	}
 }
 
-int		events_mouse(int bc, int x, int y, t_param *p)
+int			events_mouse(int bc, int x, int y, t_param *p)
 {
-	if (x > p->l * 0.05 && x < p->l * 0.25 && y > p->h * 0.025 && y < p->h * 0.125 && bc == 1)
+	if ((x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15
+		|| y < p->l * 0.15) && bc == 1)
 	{
-		p->arg = 1;
-		reset_fract(p);
+		if (x > p->l * 0.03 && x < p->l * 0.22 && y > p->h * 0.025
+			&& y < p->h * 0.125)
+			reset_fract(p, 1);
+		else if (x > p->l * 0.28 && x < p->l * 0.47 && y > p->h * 0.025
+			&& y < p->h * 0.125)
+			reset_fract(p, 2);
+		else if (x > p->l * 0.53 && x < p->l * 0.72 && y > p->h * 0.025
+			&& y < p->h * 0.125)
+			reset_fract(p, 3);
+		else if (x > p->l * 0.78 && x < p->l * 0.97 && y > p->h * 0.025
+			&& y < p->h * 0.125)
+			reset_fract(p, 4);
 	}
-	else if (x > p->l * 0.4 && x < p->l * 0.6 && y > p->h * 0.025 && y < p->h * 0.125 && bc == 1)
-	{
-		p->arg = 2;
-		reset_fract(p);
-	}
-	else if (x > p->l * 0.75 && x < p->l * 0.95 && y > p->h * 0.025 && y < p->h * 0.125 && bc == 1)
-	{
-		p->arg = 3;
-		reset_fract(p);
-	}
-	else
+	else if (!(x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15
+		|| y < p->l * 0.15))
 		mouse2(bc, x, y, p);
 	generate(p);
 	mlx_put_image_to_window(p->mlx, p->win, p->ptr_img, 0, 0);
@@ -64,47 +64,49 @@ int		events_mouse(int bc, int x, int y, t_param *p)
 	return (0);
 }
 
-int 	events_move(int x, int y, t_param *p)
+int			events_move(int x, int y, t_param *p)
 {
-	double ScaleX;
-	double ScaleY;
+	double scale_x;
+	double scale_y;
 
-	if (x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15 || y < p->l * 0.15 || p->stop == 1)
+	if (x > p->l * 0.85 || y > p->h * 0.85 || x < p->l * 0.15
+		|| y < p->l * 0.15 || p->stop == 1)
 		return (0);
-	ScaleY = (double)y / p->h;
-	ScaleX = (double)x / p->l;
-	p->varx = ScaleX;
-	p->vary = ScaleY - 0.5;
-	p->c_r = ScaleX / 1 - 1;
-	p->c_i = ScaleY / 1 - 1;
+	scale_y = (double)y / (p->h * 0.85);
+	scale_x = (double)x / (p->l * 0.85);
+	p->var_x = scale_x;
+	p->var_y = scale_y - 0.5;
+	p->c_r = (scale_x - 0.8) * 2;
+	p->c_i = (scale_y - 0.8) * 2;
 	generate(p);
 	mlx_put_image_to_window(p->mlx, p->win, p->ptr_img, 0, 0);
 	show_text(p);
 	return (0);
 }
 
-int		events_key(int kc, t_param *p)
+int			events_key(int kc, t_param *p)
 {
-	if (kc == 53)
+	if (kc == ESC)
 		exit(0);
-	if (kc == 126)
+	if (kc == UP)
 		p->y1 = p->y1 + (1 / (p->zoom / 10));
-	if (kc == 123)
+	if (kc == LEFT)
 		p->x1 = p->x1 + (1 / (p->zoom / 10));
-	if (kc == 124)
+	if (kc == RIGHT)
 		p->x1 = p->x1 - (1 / (p->zoom / 10));
-	if (kc == 125)
+	if (kc == DOWN)
 		p->y1 = p->y1 - (1 / (p->zoom / 10));
-	if (kc == 69)
+	if (kc == PLUS)
 		p->iter++;
-	if (kc == 78)
+	if (kc == MINUS)
 		p->iter--;
-	if (kc == 37)
+	if (kc == KL)
 		p->stop = 1;
-	if (kc == 32)
+	if (kc == KU)
 		p->stop = 0;
-	if (kc == 49)
-		reset_fract(p);
+	if (kc == ESP)
+		reset_fract(p, p->arg);
+	ft_colors(kc, p);
 	generate(p);
 	mlx_put_image_to_window(p->mlx, p->win, p->ptr_img, 0, 0);
 	show_text(p);

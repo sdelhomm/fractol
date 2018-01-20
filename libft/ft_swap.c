@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/12 10:30:53 by sdelhomm          #+#    #+#             */
-/*   Updated: 2017/12/14 15:12:51 by sdelhomm         ###   ########.fr       */
+/*   Created: 2017/12/14 18:16:23 by sdelhomm          #+#    #+#             */
+/*   Updated: 2017/12/30 16:37:22 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char *s2)
+void	ft_swap(int *a, int *b)
 {
-	char	*str;
-	int		i;
-	int		j;
-	int		k;
+	int c;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	i = 0;
-	j = ft_strlen(s1);
-	k = ft_strlen(s2) + j;
-	str = (char*)malloc((k + 2) * sizeof(*str));
-	if (str == NULL)
-		return (NULL);
-	str = ft_strcpy(str, s1);
-	str = ft_strcat(str, s2);
-	free(s2);
-	return (str);
+	c = *a;
+	*a = *b;
+	*b = c;
 }

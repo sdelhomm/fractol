@@ -6,7 +6,7 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 16:40:03 by sdelhomm          #+#    #+#             */
-/*   Updated: 2018/01/15 11:42:40 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/15 18:46:38 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	generate(t_param *p)
 				draw_julia(p, x, y);
 			if (p->arg == 3)
 				draw_mandelbar(p, x, y);
+			if (p->arg == 4)
+				draw_burningship(p, x, y);
 			y++;
 		}
 		x++;

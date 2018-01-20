@@ -6,7 +6,7 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 16:05:33 by sdelhomm          #+#    #+#             */
-/*   Updated: 2017/12/18 10:59:05 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/18 14:01:19 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_striter(char *s, void (*f)(char *));
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char *s2);
 
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 
@@ -121,6 +121,14 @@ int		ft_tolower(int c);
 
 int		ft_toupper(int c);
 
+void	ft_swap(int *a, int *b);
+
 char	*ft_strjoin_free(char *s1, char *s2);
+
+void	ft_strbuild(char **str, const char *s1, const char *s2);
+
+int		ft_rev_int(int nb);
+
+double	ft_abs(double nb);
 
 #endif

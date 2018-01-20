@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_rev_int.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/12 10:30:53 by sdelhomm          #+#    #+#             */
-/*   Updated: 2017/12/14 15:12:51 by sdelhomm         ###   ########.fr       */
+/*   Created: 2018/01/18 13:08:34 by sdelhomm          #+#    #+#             */
+/*   Updated: 2018/01/18 13:42:07 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char *s2)
+static char	*ft_strrev(char *str)
 {
-	char	*str;
 	int		i;
-	int		j;
-	int		k;
+	int		l;
+	char	t;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	i = 0;
-	j = ft_strlen(s1);
-	k = ft_strlen(s2) + j;
-	str = (char*)malloc((k + 2) * sizeof(*str));
-	if (str == NULL)
-		return (NULL);
-	str = ft_strcpy(str, s1);
-	str = ft_strcat(str, s2);
-	free(s2);
+	l = 0;
+	while (str[l] != '\0')
+		l++;
+	i = -1;
+	while (++i < --l)
+	{
+		t = str[i];
+		str[i] = str[l];
+		str[l] = t;
+	}
 	return (str);
+}
+
+int			ft_rev_int(int nb)
+{
+	char *n;
+
+	n = ft_itoa(nb);
+	n = ft_strrev(n);
+	nb = ft_atoi(n);
+	return (nb);
 }

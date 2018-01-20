@@ -6,7 +6,7 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 16:40:09 by sdelhomm          #+#    #+#             */
-/*   Updated: 2018/01/15 11:43:00 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/18 14:02:15 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void		draw_mandelbrot(t_param *p, const int x, const int y)
 
 	p->c_r = (x / p->zoom + p->x1);
 	p->c_i = (y / p->zoom + p->y1);
-	p->z_r = p->varx;
-	p->z_i = p->vary;
+	p->z_r = p->var_x;
+	p->z_i = p->var_y;
 	i = 0;
 	while (p->z_r * p->z_r + p->z_i * p->z_i < 4 && i < (int)p->iter)
 	{
@@ -47,7 +47,7 @@ void		draw_mandelbrot(t_param *p, const int x, const int y)
 	if (i >= (int)p->iter)
 		p->color = 000000000;
 	else
-		p->color = i * i * i * 2;
+		p->color = pow(i, p->pal) * 2;
 	fill_pixel(x, y, p, p->color);
 }
 
@@ -69,7 +69,7 @@ void		draw_julia(t_param *p, const int x, const int y)
 	if (i >= (int)p->iter)
 		p->color = 000000000;
 	else
-		p->color = i * i * i * 2;
+		p->color = pow(i, p->pal) * 2;
 	fill_pixel(x, y, p, p->color);
 }
 
@@ -81,8 +81,8 @@ void		draw_mandelbar(t_param *p, const int x, const int y)
 	i = 0;
 	p->c_r = (x / p->zoom + p->x1);
 	p->c_i = (y / p->zoom + p->y1);
-	p->z_r = p->varx;
-	p->z_i = p->vary;
+	p->z_r = p->var_x;
+	p->z_i = p->var_y;
 	while (p->z_r * p->z_r + p->z_i * p->z_i < 4 && i < p->iter)
 	{
 		tmp = p->z_r;
@@ -94,6 +94,30 @@ void		draw_mandelbar(t_param *p, const int x, const int y)
 	if (i >= (int)p->iter)
 		p->color = 000000000;
 	else
-		p->color = i * i * i * 2;
+		p->color = pow(i, p->pal) * 2;
+	fill_pixel(x, y, p, p->color);
+}
+
+void		draw_burningship(t_param *p, int x, int y)
+{
+	double	tmp;
+	int		i;
+
+	p->c_r = x / p->zoom + p->x1;
+	p->c_i = y / p->zoom + p->y1;
+	p->z_r = p->var_x;
+	p->z_i = p->var_y;
+	i = 0;
+	while (p->z_r * p->z_r + p->z_i * p->z_i < 4 && i < p->iter)
+	{
+		tmp = p->z_r * p->z_r - p->z_i * p->z_i + p->c_r;
+		p->z_i = ft_abs(2 * p->z_r * p->z_i) + p->c_i;
+		p->z_r = tmp;
+		i++;
+	}
+	if (i >= (int)p->iter)
+		p->color = 000000000;
+	else
+		p->color = pow(i, p->pal) * 2;
 	fill_pixel(x, y, p, p->color);
 }
