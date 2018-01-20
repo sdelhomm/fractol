@@ -6,7 +6,7 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 16:40:03 by sdelhomm          #+#    #+#             */
-/*   Updated: 2018/01/15 18:46:38 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/20 12:50:15 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	generate(t_param *p)
 {
-	intmax_t x;
-	intmax_t y;
+	int x;
+	int y;
 
 	x = p->l * 0.15;
 	while (x < (p->l * 0.85))

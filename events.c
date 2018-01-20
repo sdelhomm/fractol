@@ -6,7 +6,7 @@
 /*   By: sdelhomm <sdelhomm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 16:40:13 by sdelhomm          #+#    #+#             */
-/*   Updated: 2018/01/20 11:23:43 by sdelhomm         ###   ########.fr       */
+/*   Updated: 2018/01/20 12:48:11 by sdelhomm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ static void	mouse2(int bc, int x, int y, t_param *p)
 
 	scale_y = (double)y / (p->h * 0.85);
 	scale_x = (double)x / (p->l * 0.85);
-	p->fact_in = p->l * (0.0909 * 0.85);
+	p->fact_in = p->l * (0.09075 * 0.85);
 	p->fact_out = p->l * (0.1 * 0.85);
 	if (bc == 1 || bc == 4)
 	{
 		p->y1 = p->y1 + ((1 / (p->zoom / p->fact_in)) * scale_y);
 		p->x1 = p->x1 + ((1 / (p->zoom / p->fact_in)) * scale_x);
 		p->zoom = p->zoom * 1.1;
-		p->iter += 0.175;
+		p->iter += 0.2;
 	}
 	if (bc == 2 || bc == 5)
 	{
 		p->y1 = p->y1 - ((1 / (p->zoom / p->fact_out)) * scale_y);
 		p->x1 = p->x1 - ((1 / (p->zoom / p->fact_out)) * scale_x);
 		p->zoom = p->zoom / 1.1;
-		p->iter -= 0.175;
+		p->iter -= 0.2;
 	}
 }
 
